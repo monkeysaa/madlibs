@@ -41,6 +41,30 @@ def greet_person():
                            person=player,
                            compliment=compliment)
 
+#each of these is known as an endpoint (decorator + view function)
+@app.route('/game')
+def show_madlib_form():
+    """ """
+    response = request.args.get("game?")
+
+    if response == "yes":
+        return render_template("game.html")
+    elif response == "no": 
+        return render_template("goodbye.html")
+
+@app.route('/madlib')
+def show_madlib():
+    person = request.args.get("person")
+    adjective = request.args.get("adjective")
+    name = request.args.get("noun")
+    color = request.args.get("color")
+
+    return render_template("madlib.html",
+                           noun=name, adjective=adjective,
+                           color=color, person=person, 
+                           compliment="ducky")
+
+# question: Is there a good way to pass variables on one page to another page?
 
 if __name__ == '__main__':
     # Setting debug=True gives us error messages in the browser and also

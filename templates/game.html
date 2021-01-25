@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Game{% endblock %}
+
+{% block content %}
+    <p>The Game is Madlibs!</p>
+    <form action="/madlib">
+
+      <label for= "person">Person's Name</label>
+      <input type="text" id="person" name="person" required="True"><br><br>
+
+      <label for="noun">Choose a character</label>
+      <select name="noun" id="noun">
+        <option value="balloonicorn">Balloonicorn</option>
+        <option value="llambda">Llambda</option>
+        <option value="honeydew">Melon</option>
+      </select><br><br>
+
+      <label for="color">Choose a color</label>
+      <input type="radio" name="color" value="burgundy" id="burgundy">
+      <label style="color: rgb(109, 1, 1);">Burgundy</label>
+
+      <input type="radio" name="color" value="violet" id="violet">
+      <label style="color: rgb(66, 14, 77);">Violet</label>
+
+      <input type="radio" name="color" value="forest-green" id="forest-green">
+      <label style="color:forestgreen;">Green</label> <br><br>
+
+      <label for= "adjective">Adjective</label>
+      <input type="text" id="adjective" name="adjective" required="True"><br><br>
+
+      <label for="submit"></label>
+      <input type="submit" value="Submit">
+    </form>
+
+{% endblock %}
