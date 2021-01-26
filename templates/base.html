@@ -4,7 +4,17 @@
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <p>Hi {{ person }}! I think you're {{ compliment }}!</p>
+    <p>{% block greeting %} {% endblock %} {{ compliment.upper() }}! </p>
+    {% if compliments %}
+    <p>Not to mention: </p>
+    {% endif %} 
+    <ul>
+      {% for compliment in compliments %}
+        <li>{{compliment}}</li>
+      {% endfor %}
+    </ul>
+
     {% block content %}{% endblock %}
+
 </body>
 </html>

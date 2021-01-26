@@ -1,7 +1,6 @@
 """A madlib game that compliments its users."""
 
-from random import choice
-
+from random import choice, sample
 from flask import Flask, render_template, request
 
 # "__name__" is a special Python variable for the name of the current module.
@@ -14,6 +13,7 @@ AWESOMENESS = [
     'smashing', 'lovely',
 ]
 
+user = "User"
 
 @app.route('/')
 def start_here():
@@ -33,13 +33,16 @@ def say_hello():
 def greet_person():
     """Greet user with compliment."""
 
-    player = request.args.get("person")
+    user = request.args.get("person") 
+    # This doesn't update the global user value. How do I fix this?
 
     compliment = choice(AWESOMENESS)
+    nice_things = sample(AWESOMENESS, 3)
 
     return render_template("compliment.html",
-                           person=player,
-                           compliment=compliment)
+                           user=user,
+                           compliment=compliment,
+                           compliments=nice_things)
 
 #each of these is known as an endpoint (decorator + view function)
 @app.route('/game')
@@ -48,21 +51,26 @@ def show_madlib_form():
     response = request.args.get("game?")
 
     if response == "yes":
-        return render_template("game.html")
+        return render_template("game.html", 
+                                user=user,
+                                compliment=choice(AWESOMENESS))
     elif response == "no": 
-        return render_template("goodbye.html")
+        return render_template("goodbye.html",
+                                user=user,
+                                compliment=choice(AWESOMENESS))
 
 @app.route('/madlib')
-def show_madlib():
-    person = request.args.get("person")
+def show_madlib(**keyword_dict):
+    name = request.args.get("person")
     adjective = request.args.get("adjective")
-    name = request.args.get("noun")
+    noun = request.args.get("noun")
     color = request.args.get("color")
+    new_pets = request.args.getlist("pet-names")
 
     return render_template("madlib.html",
-                           noun=name, adjective=adjective,
-                           color=color, person=person, 
-                           compliment="ducky")
+                           noun=noun, person=name, user=user, color=color, 
+                           adjective=adjective, compliment=choice(AWESOMENESS),
+                           new_pets=new_pets, num_pets=len(new_pets))
 
 # question: Is there a good way to pass variables on one page to another page?
 
